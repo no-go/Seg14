@@ -66,7 +66,7 @@ void setBrightness(uint8_t brightness);
 void setBlinkMode(uint8_t mode);
 
 // Static helper methods; return characters to use with write() or writeStream().
-// Index range [0 - 82], returns characters in the order decimal, upper, lower.
+// Index range [0 - 83], returns characters in the order decimal, upper, lower.
 static uint16_t getCharacter(uint8_t index);
 // Index range [0 - 9], returns that number as a decimal character. 
 static uint16_t getDecimal(uint8_t index);

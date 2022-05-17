@@ -105,6 +105,8 @@ static const uint16_t characters[] PROGMEM = {
   0b0000000011001000, // =
   0b0000000011100011, // 176 0xb0 '°'
   0b0010000100000000, // backslash
+  // E C A98 65 3210
+  0b0001001010000010, // mu       83
 };
 
 
@@ -115,7 +117,7 @@ void Seg14::_writeCommand(uint8_t command) {
 }
 
 static uint16_t Seg14::getCharacter(uint8_t index) {
-  return pgm_read_word(characters + min(index, 82));
+  return pgm_read_word(characters + min(index, 83));
 }
 
 static uint16_t Seg14::getDecimal(uint8_t index) {
@@ -189,6 +191,8 @@ void Seg14::print(const char * letters, uint8_t i, uint8_t dots) {
             index = 80;
         } else if (index == 176) {
             index = 81;
+        } else if (index == 230) {
+            index = 83;
         } else if (index == '\\') {
             index = 82;
         } else if (index < ' ') {
