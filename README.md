@@ -14,7 +14,7 @@ displays (author: Riley Shaw).
 ```.cpp
 // Basic hello world.
 //
-// This sketch displays the word "Hand" across two 14-segment displays.
+// This sketch displays the word "Hand" across four 14-segment displays.
 // After 2s the displays shows "No ?".
 //
 // Hardware setup: attach four 14-segment displays to a HT16K33 at address 0x70.

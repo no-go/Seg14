@@ -176,7 +176,9 @@ uint8_t Seg14::writeStream(uint16_t character, uint8_t startIndex, uint8_t endIn
   return _streamIndex;
 }
 
-void Seg14::print(const char * letters, uint8_t i) {
+void Seg14::print(const char * letters, uint8_t i, uint8_t dots) {
+    uint16_t tmp;
+    
     for (; i<_nDisplays; ++i) {
         uint8_t index = letters[i];
         if (index == 148) {
@@ -202,7 +204,12 @@ void Seg14::print(const char * letters, uint8_t i) {
         } else {
             index = index-'_' + 38;
         }
-        writeStream(pgm_read_word(characters + index), i, i);
+        
+        tmp = pgm_read_word(characters + index);
+        if ( (dots>>i)%2 == 1 ) {
+            tmp = tmp | 0b0100000000000000;
+        }
+        writeStream(tmp, i, i);
     }
     
 }

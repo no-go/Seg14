@@ -49,7 +49,7 @@ class Seg14 {
     void write(uint16_t character, uint8_t displayIndex = 0);
     uint8_t writeStream(uint16_t character, uint8_t startIndex = 0);
     uint8_t writeStream(uint16_t character, uint8_t startIndex, uint8_t endIndex);
-    void print(const char * letters, uint8_t i = 0);
+    void print(const char * letters, uint8_t i = 0, uint8_t dots = 0);
 
   private:
     uint8_t _address;
