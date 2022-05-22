@@ -1,8 +1,8 @@
-#include "Seg14.h"
+#include <Seg14.h>
 
 Seg14 segments(4, 0x70);
 
-// helper for 4 digits
+// helper for 4 digits (fills zero to 3 digits: 1234,123,012,001)
 void format4digits(char * buf, double val, int8_t startpos = 0) {
   if (val<0) {
     buf[startpos++] = '-';
@@ -57,9 +57,9 @@ void dblOut(Seg14 const & seg, double val) {
       }
       
       if (neg) {
-        segments.print(buf,0,0b00000010>>(expo%3));
+        seg.print(buf,0,0b00000010>>(expo%3));
       } else {
-        segments.print(buf,0,0b00000001>>(expo%3));
+        seg.print(buf,0,0b00000001>>(expo%3));
       }
       return;
     }
@@ -73,51 +73,51 @@ void dblOut(Seg14 const & seg, double val) {
     
     if (neg) {
       buf[3] = 'M';
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     } else {
       buf[3] = 'k';
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     }
   } else if (val >= 10000) {
     val /= 100.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 'k';
     if (neg) {
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     } else {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     }
   } else if (val >= 1000) {
     format4digits(buf, neg? -1*val : val);
     if (neg) {
       buf[3] = 'k';
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     } else {
-      segments.print(buf,0,0b00001000);
+      seg.print(buf,0,0b00001000);
     }
   } else if (val >= 100) {
     val *= 10.0;
     format4digits(buf, neg? -1*val : val);
     if (neg) {
-      segments.print(buf,0,0b00001000);
+      seg.print(buf,0,0b00001000);
     } else {
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     }
   } else if (val >= 10) {
     val *= 100.0;
     format4digits(buf, neg? -1*val : val);
     if (neg) {
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     } else {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     }
   } else if (val >= 1) {
     val *= 1000.0;
     format4digits(buf, neg? -1*val : val);
     if (neg) {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     } else {
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     }
   } else if (val >= 0.1) {
     if (neg) {
@@ -128,26 +128,26 @@ void dblOut(Seg14 const & seg, double val) {
       format4digits(buf, val, 1);
       buf[0] = '0';
     }
-    segments.print(buf,0,0b00000001);
+    seg.print(buf,0,0b00000001);
   } else if (val >= 0.01) {
     if (neg) {
       val *= 1000.0;
       format4digits(buf, -1*val);
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     } else {
       val *= 10000.0;
       format4digits(buf, val);
       buf[3] = 'm';
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     }
   } else if (val >= 0.001) {
     val *= 100000.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 'm';
     if (neg) {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     } else {
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     }
 
     
@@ -156,30 +156,30 @@ void dblOut(Seg14 const & seg, double val) {
       val *= 1000000.0;
       format4digits(buf, -1*val);
       buf[3] = 'm';
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     } else {
       val *= 1000000.0;
       format4digits(buf, val);
       buf[3] = 0xE6; // mu
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     }
   } else if (val >= 0.00001) {
     val *= 10000000.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 0xE6; // mu
     if (neg) {
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     } else {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     }
   } else if (val >= 0.000001) {
     val *= 100000000.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 0xE6; // mu
     if (neg) {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     } else {
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     }
 
   } else if (val >= 0.0000001) {
@@ -187,30 +187,30 @@ void dblOut(Seg14 const & seg, double val) {
       val *= 1000000000.0;
       format4digits(buf, -1*val);
       buf[3] = 0xE6; // mu
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     } else {
       val *= 1000000000.0;
       format4digits(buf, val);
       buf[3] = 'n';
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     }
   } else if (val >= 0.00000001) {
     val *= 10000000000.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 'n';
     if (neg) {
-      segments.print(buf,0,0b00000100);
+      seg.print(buf,0,0b00000100);
     } else {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     }
   } else if (val >= 0.000000001) {
     val *= 100000000000.0;
     format4digits(buf, neg? -1*val : val);
     buf[3] = 'n';
     if (neg) {
-      segments.print(buf,0,0b00000010);
+      seg.print(buf,0,0b00000010);
     } else {
-      segments.print(buf,0,0b00000001);
+      seg.print(buf,0,0b00000001);
     }
   } else {
     if (neg) {
@@ -221,7 +221,7 @@ void dblOut(Seg14 const & seg, double val) {
       format4digits(buf, val);
     }
     buf[3] = 'n';
-    segments.print(buf,0,0b00000001);
+    seg.print(buf,0,0b00000001);
   }
   
 }

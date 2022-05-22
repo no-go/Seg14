@@ -1,7 +1,7 @@
 // Alternating display updates.
 //
 // Hardware setup: attach four 14-segment displays to a HT16K33 at address 0x70.
-#include "Seg14.h"
+#include <Seg14.h>
 
 Seg14 segments(4, 0x70);
 
